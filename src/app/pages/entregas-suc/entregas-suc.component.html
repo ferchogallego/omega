@@ -1,0 +1,105 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/entregas.png" width="50" class="img-fluid" alt="Responsive image"> Entregas de Central</h1>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Código</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Estado</th>
+                    <th scope="col">Sucursal</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listaEntrega">
+                    <th><b>{{item.codOrden}}</b></th>
+                    <td>{{item.fecha | date: 'medium'}}</td>
+                    <td>{{item.estado}}</td>
+                    <td><b>{{item.sucursal | titlecase}}</b></td>
+                    <td class="text-center">
+                        <button class="btn btn-dark" (click)="listaProductos(item.productos, item.id)" data-toggle="modal" data-target="#listadoProductos" title="Ver detalle de entrega"><i class="fa fa-list"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="listadoProductos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Productos en Distribución</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of productos">
+                            <th *ngIf="item.cargado == 'no'">{{item.nombre}}</th>
+                            <td *ngIf="item.cargado == 'no'">{{item.cantidad}}</td>
+                            <td *ngIf="item.cargado == 'no'">${{item.precio | number}}</td>
+                            <td *ngIf="item.cargado == 'no'" class="text-center">
+                                <button class="btn btn-dark" title="Cargar producto" (click)="cargarInventarioSucursal(item)" data-toggle="modal" data-target="#cargaInventario" data-dismiss="modal"><i class="fa fa-check-circle fa-lg"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6">
+                            <label>Registrar novedades:</label>
+                            <textarea type="text" (change)="textNovedad($event.target.value)" class="form-control"> </textarea>
+                        </div>
+                        <div class="col-6 mt-5">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-primary btn-block" (click)="loadNovedad()" data-dismiss="modal">Novedad</button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-success btn-block" (click)="changeState()" data-dismiss="modal">Finalizar pedido</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="cargaInventario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cargar Producto a Inventario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <h5>Se va a actualizar el inventario con este producto.</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" (click)="updateProdSuc()" data-dismiss="modal">Cargar Inventario</button>
+            </div>
+        </div>
+    </div>
+</div>

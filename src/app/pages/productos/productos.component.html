@@ -1,0 +1,50 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h2 class="ventas"><img src="../../../assets/img/barcode.png" width="50" class="img-fluid" alt="Responsive image"> Gestión de Productos</h2>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12 mb-2">
+        <div class="row">
+            <div class="col-4">
+                <select class="custom-select" (change)="sucursalSeleccionada($event.target.value)">
+                    <option selected value="">Inventario por sucursal</option>
+                    <option *ngFor="let item of sucursales" [value]="item.nombre">{{item.nombre | titlecase}}</option>                   
+                  </select>
+            </div>
+            <div class="col-4 text-center">
+                <h3>{{inventario}}</h3>
+            </div>
+            <div class="col-4 text-right">
+                <button class="btn btn-dark" [routerLink]="['/nuevoProducto']">Crear producto</button>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th scope="col">Producto</th>
+                <th scope="col">Código</th>
+                <th scope="col">Actualizado</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio kilo</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center" *ngFor="let item of lista">
+                <td><b>{{item.nombre | titlecase}}</b></td>
+                <td><b>{{item.codigo}}</b></td>
+                <td>{{item.actualizado | date}}</td>
+                <td>{{item.cantidad}} kg</td>
+                <td>${{item.precio | number}}</td>
+                <td>
+                    <button class="btn btn-success mr-2" title="Editar Producto" [routerLink]="['/editar', item.id]"><i class="fa fa-edit"></i></button>
+                    <button *ngIf="!sucsProd" class="btn btn-danger" title="Borrar Producto" (click)="borrarProductos(item.id)" title="Eliminar Producto"><i class="fa fa-trash"></i></button>
+                    <button *ngIf="sucsProd" class="btn btn-danger" title="Borrar Producto" (click)="borrarProductoSucursal(item.id)" title="Eliminar Producto sucursal"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

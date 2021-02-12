@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/entrada.png" width="50" class="img-fluid" alt="Responsive image"> Entrada de Producto</h1>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2>Bienvenido: <b>{{nombre | titlecase}}</b></h2>
+    <h4>Entrada: <b>{{fecha | date:'medium'}}</b></h4>
+    <hr>
+    <div class="col-12 mt-5">
+        <form [formGroup]="newEntryForm" (ngSubmit)="addNewEntry(newEntryForm.value)">
+            <div class="row">
+                <div class="col-6 form-group">
+                    <label>Unidades Recibidas:</label>
+                    <input class="form-control" type="number" min="1" placeholder="Ingrese unidades" formControlName="unidades" [class.is-invalid]="unidadesNoValido">
+                    <small *ngIf="unidadesNoValido" class="text-danger">Cantidad de unidades válido</small>
+                </div>
+                <div class="col-6 form-group">
+                    <label>Peso en Kilos:</label>
+                    <input class="form-control" type="number" min="1" placeholder="Ingrese kilos" formControlName="peso" [class.is-invalid]="pesoNoValido">
+                    <small *ngIf="pesoNoValido" class="text-danger">Debe ingresar peso válido</small>
+                </div>
+                <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-dark">Generar Entrada</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

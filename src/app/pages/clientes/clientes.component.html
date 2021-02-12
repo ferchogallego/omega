@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h2 class="ventas"><img src="../../../assets/img/support.png" width="50" class="img-fluid" alt="Responsive image"> Clientes Registrados</h2>
+    </div>
+</div>
+<div class="container-fluid mt-4">
+    <div class="col-12">
+        <div class="text-right">
+            <button class="btn btn-dark mb-2" [routerLink]="['/agregar']">Crear nuevo cliente</button>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Teléfono</th>
+                    <th scope="col">Dirección</th>
+                    <th scope="col">Documento</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listaClientes">
+                    <th>{{item.nombre}}</th>
+                    <td>{{item.tipoCliente}}</td>
+                    <td>{{item.telefono}}</td>
+                    <td>{{item.direccion}}</td>
+                    <td>{{item.numero}}</td>
+                    <td>
+                        <!-- <button class="btn btn-dark mr-1" (click)="editarCliente(item.id)" title="Editar Cliente"><i class="fa fa-edit fa-lg"></i></button> -->
+                        <button class="btn btn-dark" (click)="eliminarCliente(item.id)" title="Eliminar Cliente"><i class="fa fa-trash fa-lg"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

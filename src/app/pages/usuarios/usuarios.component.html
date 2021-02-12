@@ -1,0 +1,107 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/network.png" width="50" class="img-fluid" alt="Responsive image"> Gestión de Empleados</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="col-12 mt-5">
+        <div class="row">
+            <div class="col-7">
+                <div class="form-group">
+                    <label for="">Buscar empleado por número de documento:</label>
+                    <input class="form-control sch" [(ngModel)]="filterEmpleado" name="filterEmpleado" type="search" aria-label="Search" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-5 mt-3 srch">
+                <button class="btn btn-dark btn-block" [routerLink]="['/nuevoEmpleado']"><i class="fa fa-user-circle fa-lg" aria-hidden="true"></i> Crear Empleado</button>
+                <div class="input-group mb-3 cmbx">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01">Sucursales</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" (change)="flitroSucursal($event.target.value)">
+                        <option selected>Seleccione Sucursal:</option>
+                        <option *ngFor="let item of sucursales" [value]="item[0].nombre">{{item[0].nombre | titlecase}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Cédula</th>
+                <th>Teléfono</th>
+                <th>Puesto</th>
+                <th>Sucursal</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of empleados | empleados:filterEmpleado">
+                <th><b>{{item.nombre | titlecase}}</b></th>
+                <td>{{item.documento}}</td>
+                <td>{{item.telefono}}</td>
+                <td>{{item.rol}}</td>
+                <td>{{item.sucursal}}</td>
+                <td>
+                    <div class="row">
+                        <div>
+                            <button class="btn btn-danger" (click)="borrarEmpleado(item)" title="Eliminar Empleado"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary ml-2" (click)="verEmpleado(item)" data-toggle="modal" data-target="#exampleModal" title="Detalle Empleado"><i class="fa fa-list" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalle de Empleado</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <div class="text-center">
+                        <img [src]="imagen" class="img-fluid rounded-circle" width="200" alt="Responsive image">
+                        <h2><b>{{nombre | titlecase}}</b></h2>
+                        <h3>{{rol | titlecase}}</h3>
+                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-6">
+                                <h5><img src="../../../assets/img/id-card.svg" width="30" class="img-fluid" alt="Responsive image"> Documento: <br><button class="btn btn-light"><b>{{documento | number}}</b></button></h5>
+                                <h5><img src="../../../assets/img/calendar.svg" width="30" class="img-fluid" alt="Responsive image"> Fecha Nacimiento: <br><button class="btn btn-light"><b>{{fechaN}}</b></button></h5>
+                            </div>
+                            <div class="col-6">
+                                <h5><img src="../../../assets/img/mail.svg" width="30" class="img-fluid" alt="Responsive image"> E-mail: <br><button class="btn btn-light"><b>{{email}}</b></button></h5>
+                                <h5><img src="../../../assets/img/phone.svg" width="30" class="img-fluid" alt="Responsive image"> Teléfono: <br><button class="btn btn-light"><b>{{telefono}}</b></button></h5>
+                            </div>
+                        </div>
+                        <h5><img src="../../../assets/img/address.svg" width="30" class="img-fluid" alt="Responsive image"> Direccion: <br><button class="btn btn-light"><b>{{direccion}}</b></button></h5>
+                        <hr>
+                        <h5><img src="../../../assets/img/employee.svg" width="30" class="img-fluid" alt="Responsive image"> Sucursal: <button class="btn btn-light"><b>{{sucursal}}</b></button></h5>
+                        <h5><img src="../../../assets/img/ingreso.svg" width="30" class="img-fluid" alt="Responsive image"> Fecha Ingreso: <button class="btn btn-light"><b>{{registrado | date}}</b></button></h5>
+                        <h5>
+                            <img src="../../../assets/img/turn-off.svg" width="30" class="img-fluid" alt="Responsive image"> Estado:
+                            <button class="btn btn-light"><b>{{estado}}</b></button>&nbsp;
+                            <button *ngIf="estado == 'Activo'" class="btn btn-dark" data-dismiss="modal" (click)="cambiarEstado(idEmpleado, 'Desactivado')"> Desactivar</button></h5>
+                        <button *ngIf="estado == 'Desactivado'" class="btn btn-success" data-dismiss="modal" (click)="cambiarEstado(idEmpleado, 'Activo')"> Activar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

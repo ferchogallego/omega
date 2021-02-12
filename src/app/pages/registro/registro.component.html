@@ -1,0 +1,30 @@
+<div class="registro fixed-top">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/agregar-usuario.png" width="50" class="img-fluid" alt="Responsive image"> Registro de Usuario al Sistema</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="col-12 ver text-center">
+        <h2>Verifique su cédula para registrarse:</h2>
+        <hr>
+        <br>
+        <input class="cedula" type="text" placeholder="Ingrese su No. de cédula" (change)="verfica($event.target.value)">
+        <br>
+        <br>
+        <button class="btn btn-dark">Verificar</button>
+    </div>
+    <div *ngIf="reg" class="col-12">
+        <hr>
+        <h2>Bienvenido: <b>{{nombre | titlecase}}</b></h2>
+        <h4>Por favor ingrese su contraseña para iniciar sesión.</h4>
+        <h4>Correo para inicio: <b>{{correo}}</b></h4>
+        <hr>
+        <div class="col-12 text-center">
+            <label>Ingrese su contraseña:</label><br>
+            <input type="password" class="cedula" (change)="crearPass($event.target.value)">
+            <br>
+            <br>
+            <button class="btn btn-dark" type="submit">Aceptar</button>
+        </div>
+    </div>
+</div>

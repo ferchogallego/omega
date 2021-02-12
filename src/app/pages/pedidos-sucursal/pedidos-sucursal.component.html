@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/delivery.png" width="50" class="img-fluid" alt="Responsive image"> Solicitud de Productos</h1>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-4" style="border-right: solid; border-width: 1px; border-color: #d1cece">
+                <div class="form-group">
+                    <label><h4>Seleccione Producto:</h4></label><br>
+                    <select class="custom-select slect" (change)="verificaInventario($event.target.value)">
+                        <option value="" selected>Producto...</option>
+                        <option *ngFor="let item of lista" [value]="item.nombre">{{item.nombre | titlecase}}</option>   
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><h4>Cantidad:</h4></label><br>
+                    <input type="number" (change)="calcularInventario($event.target.value)" style="text-align: center;" class="form-control slect" min="1" [value]="cantEnviar">
+                </div>
+                <button (click)="cargarProductoPedido()" class="btn btn-dark btn-block">Cargar</button>
+                <button *ngIf="envio" (click)="enviarPedido()" class="btn btn-warning btn-block env">Enviar Pedido</button>
+            </div>
+            <div class="col-8">
+                <h3>{{sucursal | titlecase}}:</h3>
+                <hr>
+                <table class="table float-right">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center">Producto</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of prodList; let i = index">
+                            <td class="text-center">{{item.nombre}}</td>
+                            <td class="text-center">{{item.cantidad}}</td>
+                            <td class="text-center">
+                                <button class="btn btn-danger" (click)="devolucion(i)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash fa-lg"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

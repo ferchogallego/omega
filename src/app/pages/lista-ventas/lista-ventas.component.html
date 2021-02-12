@@ -1,0 +1,60 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/lista.png" width="50" class="img-fluid" alt="Responsive image"> Lista de Ventas</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="col-12 mt-5">
+        <div class="row">
+            <div class="col-7">
+                <div class="form-group">
+                    <label for="">Buscar factura por consecutivo o número de documento:</label>
+                    <input class="form-control sch" [(ngModel)]="filterProducto" name="filterProducto" type="search" aria-label="Search" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-5 mt-5">
+                <div class="row">
+                    <div class="col-6 text-right">
+                        <button *ngIf="!canceladas" class="btn btn-dark" (click)="listaCanceladas()">Facturas Canceladas</button>
+                        <button *ngIf="canceladas" class="btn btn-dark" (click)="listaCompleta()">Ver Todas</button>
+                    </div>
+                    <div class="col-6 text-right">
+                        <button class="btn btn-dark" (click)="listaCredito()">Facturas Crédito</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Factura</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Referencia</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list | filter:filterProducto">
+                    <th><b>No.{{item.factura}}</b></th>
+                    <td>{{item.fecha | date}}</td>
+                    <td>{{item.documento}}</td>
+                    <td>{{item.refCompra}}</td>
+                    <td>${{item.total | number}}</td>
+                    <td>
+                        <div class="row">
+                            <div *ngIf="!item.estado">
+                                <button *ngIf="!canceladas" class="btn btn-danger" (click)="cancelaFatura(item)" title="Cancelar factura"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary ml-2" (click)="abrirFactua(item)" title="Detalle factura"><i class="fa fa-list" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

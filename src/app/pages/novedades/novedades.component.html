@@ -1,0 +1,88 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/pedidos.png" width="50" class="img-fluid" alt="Responsive image"> Novedades generadas en distribución</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="col-12 mt-5">
+        <div class="row">
+            <div class="col-7">
+                <div class="form-group">
+                    <label>Buscar novedades por sucursal:</label>
+                    <select class="form-control" (change)="selectSucursal($event.target.value)"> 
+                        <option value="todos">Selecionar sucursal</option>                      
+                        <option *ngFor="let sucursal of sucs" [value]="sucursal.nombre">{{sucursal.nombre}}</option>                        
+                      </select>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Sucursal</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Novedad</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of novedades">
+                    <th><b>{{item.sucursal}}</b></th>
+                    <td>{{item.fecha | date}}</td>
+                    <td>{{item.note}}</td>
+                    <td class="text-center">
+                        <div class="row">
+                            <div>
+                                <button class="btn btn-success" title="Gestionar novedad" (click)="gestionar(item.id)"><i class="fa fa-check" aria-hidden="true"></i></button>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary ml-2" title="Detalle pedido" (click)="cargarPedidoId(item.idDistribucion)" data-toggle="modal" data-target="#pedidoPorId"><i class="fa fa-list" aria-hidden="true"></i></button>
+                            </div>
+                            <div>
+                                <button class="btn btn-danger ml-2" title="Denegar novedad" (click)="denegar(item.id)"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="pedidoPorId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalle del envío con novedad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h4>{{alimentador | titlecase}}</h4>
+                    <h4>{{fecha | date}}</h4>
+                    <h4>{{sucursal | titlecase}}</h4>
+                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of productos">
+                            <th><b>{{item.nombre | titlecase}}</b></th>
+                            <td>{{item.cantidad}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

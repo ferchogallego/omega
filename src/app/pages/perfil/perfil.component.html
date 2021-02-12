@@ -1,0 +1,103 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/perfil.png" width="50" class="img-fluid" alt="Responsive image"> Datos de Usuario</h1>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12">
+        <div class="text-center">
+            <img *ngIf="imgLoad" [src]="imageSrc" class="img-fluid rounded-circle" width="200" alt="Responsive image">
+            <div *ngIf="!imgLoad">
+                <img *ngIf="imagen" [src]="imagen" class="img-fluid rounded-circle" width="200" alt="Responsive image">
+                <img *ngIf="!imagen" src="../../../assets/img/avatar.png" class="img-fluid rounded-circle" width="200" alt="Responsive image">
+            </div>
+            <br>
+            <div class="mt-3">
+                <input type="file" class="imgPer" id="file-upload" (change)="handleImage($event)">
+                <br>
+                <button class="btn btn-warning mt-2" (click)="cambiarImagen()"><i class="fa fa-upload fa-2x"></i> Cambiar Imagen de Perfil</button>
+            </div>
+            <br>
+            <h2><b>{{nombre | titlecase}}</b></h2>
+            <h3>{{cargo | titlecase}}.</h3>
+            <h3>{{sucursal | titlecase}}</h3>
+            <hr>
+        </div>
+        <div>
+            <div class="row">
+                <div class="col-10">
+                    <h5><img src="../../../assets/img/id-card.svg" width="30" class="img-fluid" alt="Responsive image"> Documento: <br><button class="btn btn-light"><b>{{identificacion | number}}</b></button></h5>
+                </div>
+                <div class="col-2">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-10">
+                    <h5><img src="../../../assets/img/mail.svg" width="30" class="img-fluid" alt="Responsive image"> E-mail: <br><button class="btn btn-light"><b>{{correo}}</b></button></h5>
+                </div>
+                <div class="col-2">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-10">
+                    <h5><img src="../../../assets/img/address.svg" width="30" class="img-fluid" alt="Responsive image"> Direccion: <br><button class="btn btn-light"><b>{{direccion}}</b></button></h5>
+                </div>
+                <div class="col-2">
+                    <button title="Modificar Dirección" class="btn btn-info" data-toggle="modal" data-target="#newAddress"><i class="fa fa-edit fa-lg"></i></button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-10">
+                    <h5><img src="../../../assets/img/phone.svg" width="30" class="img-fluid" alt="Responsive image"> Teléfono: <br><button class="btn btn-light"><b>{{telefono}}</b></button></h5>
+                </div>
+                <div class="col-2">
+                    <button title="Modificar Teléfono" class="btn btn-info" data-toggle="modal" data-target="#newPhone"><i class="fa fa-edit fa-lg"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="newAddress" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ingrese la nueva dirección</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <textarea rows="5" class="form-control" (change)="nuevaDireccion($event.target.value)"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="cambiarDireccion()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="newPhone" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Ingrese su nuevo número telefónico</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <input type="number" class="form-control" placeholder="Ingrese aqui..." (change)="nuevoTelefono($event.target.value)">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="cambiarTelefono()">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

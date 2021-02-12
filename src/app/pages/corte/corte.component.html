@@ -1,0 +1,48 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/cut.png" width="50" class="img-fluid" alt="Responsive image"> Corte de Producto</h1>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2>Bienvenido: <b>{{nombre | titlecase}}</b></h2>
+    <h4>Despacho: <b>{{fecha | date:'medium'}}</b></h4>
+    <hr>
+    <div class="col-12 mt-5">
+        <div class="row">
+            <div class="col-6 form-group">
+                <label>Seleccione el corte:</label>
+                <select class="form-control" (change)="producto($event.target.value)">
+                    <option selected value="">Seleccione Producto...</option>                        
+                    <option *ngFor="let item of lista" [value]="item.id">{{item.nombre | titlecase}}</option>
+                </select>
+            </div>
+            <div class="col-6 form-group">
+                <label>Peso en Kilos:</label>
+                <input class="form-control" (change)="cantidad($event.target.value)" type="number" min="1" placeholder="Ingrese kilos">
+            </div>
+            <div class="col-12 text-right">
+                <button type="button" (click)="addNewSend()" class="btn btn-dark btn-lg">Cargar</button>
+                <button type="button" *ngIf="fin" (click)="finalizarCarga()" class="btn btn-primary btn-lg ml-2">Finalizar Carga de Inventario</button>
+                <button type="button" *ngIf="!fin" class="btn btn-primary btn-lg ml-2" disabled>Finalizar Carga de Inventario</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <br>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of listadoProd">
+                    <td>{{item.nombre | titlecase}}</td>
+                    <td>{{item.cantidad}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

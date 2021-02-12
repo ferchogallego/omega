@@ -1,0 +1,159 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/buildings.png" width="50" class="img-fluid" alt="Responsive image"> Sucursales</h1>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="text-right">
+        <div class="row text-right">
+            <button *ngIf="!menu" class="btn btn-dark mr-2" (click)="onMenu()"><i class="fa fa-bars fa-lg"></i></button>
+            <button *ngIf="menu" class="btn btn-dark mr-2" (click)="onMenu()"><i class="fa fa-ellipsis-v fa-lg"></i></button>
+            <button class="btn btn-dark" (click)="loadSales()" data-toggle="modal" data-target="#exampleModal">Crear Sucursal</button>
+        </div>
+    </div>
+    <div class="col-12 mt-5">
+        <div class="row row-cols-1 row-cols-md-3 sucursales animated fadeIn">
+            <div class="col mb-4" *ngFor="let item of lista">
+                <div class="card h-100">
+                    <img [src]="item.imageSuc" class="card-img-top crImage rounded-circle" alt="...">
+                    <div class="card-body">
+                        <h3 class="card-title">Sucursal : <b>{{item.nombre | titlecase}}</b> </h3>
+                        <h5>Encardado: <b>{{item.encargado | titlecase}}</b></h5>
+                        <h5>Teléfono: <b>{{item.telefono }}</b></h5>
+                        <h5>Dirección: <b>{{item.direccion }}</b></h5>
+                        <h5>E-mail: <b style="color: blue;">{{item.email}}</b></h5>
+                        <hr>
+                        <div class="animated fadeIn" *ngIf="menu" class="row">
+                            <div class="col-6">
+                                <button *ngIf="item.estado == 'Desactivado'" class="btn btn-success btn-block" (click)="disabled(item.id, 'Activo')"><i class="fa fa-power-off fa-lg"></i> Activar</button>
+                                <button *ngIf="item.estado == 'Activo'" class="btn btn-dark btn-block" (click)="disabled(item.id, 'Desactivado')"><i class="fa fa-power-off fa-lg"></i> Desactivar</button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-danger btn-block" (click)="delete(item.id)"><i class="fa fa-trash fa-lg"></i> Eliminar</button>
+                            </div>
+                            <div class="col-12 mt-2">
+                                <button class="btn btn-success btn-block" (click)="cargarEncargado(item.id)" data-toggle="modal" data-target="#editSucursal"><i class="fa fa-edit fa-lg"></i> Actualizar Encargado</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crear Sucursal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="nuevaSucursalForm" (ngSubmit)="addNewcampus(nuevaSucursalForm.value)" autocomplete="off">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Nombre Sucursal</label>
+                                <input type="text" class="form-control" formControlName="nombre" [class.is-invalid]="nombreNoValido">
+                                <small *ngIf="nombreNoValido" class="text-danger">Debe ingresar el nombre</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Razón social</label>
+                                <input type="text" class="form-control" formControlName="razonSocial" [class.is-invalid]="razonNoValido">
+                                <small *ngIf="razonNoValido" class="text-danger">Debe ingresar la razón social</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Dirección</label>
+                                <input type="text" class="form-control" formControlName="direccion" [class.is-invalid]="direccionNoValido">
+                                <small *ngIf="direccionNoValido" class="text-danger">Debe ingresar la dirección</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Imagen de sucursal</label>
+                                <input type="file" class="form-control" (change)="handleImage($event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="text" class="form-control" formControlName="telefono" [class.is-invalid]="telefonoNoValido">
+                                <small *ngIf="telefonoNoValido" class="text-danger">Debe ingresar un teléfono válido</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control" formControlName="email" [class.is-invalid]="emailNoValido">
+                                <small *ngIf="emailNoValido" class="text-danger">Debe ingresar un email válido</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Encargado</label>
+                                <select class="custom-select" formControlName="encargado" [class.is-invalid]="encargadoNoValido">
+                                    <option value="Sin definir">Sin definir</option>
+                                    <option *ngFor="let item of vendedores" [value]="item[0].nombre">{{item[0].nombre | titlecase}}</option>
+                                </select>
+                                <small *ngIf="encargadoNoValido" class="text-danger">Debe ingresar encargado</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label>Estado</label>
+                                <select class="custom-select" formControlName="estado">
+                                    <option value="Activo">Activo</option>
+                                    <option value="Desactivado">Desactivado</option>                            
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark">Guardar Sucursal</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editSucursal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar encargado de sucursal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Seleccione nuevo encargado;</label>
+                    <select class="custom-select" (change)="encargadoSeleccionado($event.target.value)">
+                        <option value="">Seleccionar...</option>
+                        <option *ngFor="let item of vendedores" [value]="item[0].nombre">{{item[0].nombre | titlecase}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">Cambiar Encargado</button>
+            </div>
+        </div>
+    </div>
+</div>

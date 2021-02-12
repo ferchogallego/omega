@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "pollosomega-20773": {
+      "hosting": {
+        "omega": [
+          "pollosomega-20773"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "pollosomega-20773"
+  }
+}

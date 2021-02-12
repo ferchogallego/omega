@@ -1,0 +1,35 @@
+.inicio {
+    width: 100%;
+    background: url(../../../assets/img/fondoOmega.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    height: 700px;
+    .login {
+        .ttlo {
+            background-color: #ffa000;
+            color: #fff;
+        }
+        .ttlo,
+        .card {
+            max-width: 22rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .pass {
+            width: 75%;
+            margin-left: 15px;
+        }
+        .viewPass {
+            float: right;
+            color: #364d6a;
+        }
+        .spn {
+            margin-left: 15px;
+            color: red;
+        }
+        .eml {
+            color: red;
+        }
+    }
+}

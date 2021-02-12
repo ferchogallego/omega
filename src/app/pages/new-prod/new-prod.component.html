@@ -1,0 +1,57 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h2 class="ventas"><img src="../../../assets/img/plus.png" width="50" class="img-fluid" alt="Responsive image"> Crear Producto</h2>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12">
+
+        <form [formGroup]="newProductForm" (ngSubmit)="addNewProduct(newProductForm.value)" autocomplete="off">
+            <div class="text-center">
+                <img *ngIf="!imageSrc" src="../../../../assets/img/prod.png" width="10%" alt="...">
+                <img *ngIf="imageSrc" [src]="imageSrc" width="10%" alt="...">
+            </div><br>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Nombre del product:o</label>
+                        <input type="text" class="form-control" formControlName="nombre" [class.is-invalid]="nombreNoValido">
+                        <small *ngIf="nombreNoValido" class="text-danger">Debe ingresar el nombre</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Código del producto:</label>
+                        <input type="text" class="form-control" formControlName="codigo" [class.is-invalid]="codigoNoValido">
+                        <small *ngIf="codigoNoValido" class="text-danger">Debe ingresar el código del producto</small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Precio:</label>
+                        <input type="number" class="form-control" formControlName="precio" [class.is-invalid]="precioNoValido">
+                        <small *ngIf="precioNoValido" class="text-danger">Debe ingresar el precio</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen del producto</label>
+                        <input type="file" class="form-control" formControlName="imagen" (change)="handleImage($event)">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark">Guardar Producto Central</button>
+            <br><br>
+        </form>
+    </div>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-6">
+                <label>Asignar producto a sucursales:</label>
+                <select class="custom-select" (change)="sucSelect($event.target.value)">
+                    <option value="">Seleccione sucursal:</option>
+                    <option *ngFor="let item of sucursales" [value]="item[0].nombre">{{item[0].nombre | titlecase}}</option>   
+                </select>
+                <button *ngIf="!central" class="btn btn-dark mt-2" (click)="addProductSucursales()">Guardar en sucursal seleccionada</button>
+                <button *ngIf="central" class="btn btn-dark mt-2" disabled>Guardar en sucursal seleccionada</button>
+            </div>
+        </div>
+    </div>
+</div>

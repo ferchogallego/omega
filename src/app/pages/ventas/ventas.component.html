@@ -1,0 +1,178 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/rent.png" width="50" class="img-fluid" alt="Responsive image"> Crear Ventas</h1>
+    </div>
+</div>
+<div class="container-fluid mt-5 mb-5">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-lg-4 info mr-1">
+                <div class="card mt-3 mb-5">
+                    <form>
+                        <div class="input-group flex-nowrap">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping"><i class="fa fa-user" aria-hidden="true"></i></span>
+                            </div>
+                            <input type="text" class="form-control" [value]="nombre" placeholder="Nombre de usuario" aria-label="Username" aria-describedby="addon-wrapping" disabled>
+                        </div>
+                        <div class="input-group flex-nowrap mt-2">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="addon-wrapping"><i class="fa fa-file" aria-hidden="true"></i></span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Nro. Factura" aria-label="Username" [value]="factura" aria-describedby="addon-wrapping" disabled>
+                        </div>
+                        <div class="input-group mb-3 mt-2">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01"><i class="fa fa-users" aria-hidden="true"></i></label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" (change)="clientSelected($event.target.value)">
+                              <option selected>Seleccionar clientes</option>
+                              <option *ngFor="let item of listClient" [value]="item.id">{{item.nombre}}</option>                             
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <label for="">Artículo:</label>
+                                <input *ngIf="nomProd" type="text" class="form-control" disabled [value]="nomProd | titlecase">
+                                <input *ngIf="!nomProd" type="text" class="form-control" disabled>
+                            </div>
+                            <div class="col-4">
+                                <label for="">Cantidad:</label>
+                                <input *ngIf="!cantidad" type="number" min="1" class="form-control" disabled>
+                                <input *ngIf="cantidad" type="number" min="1" class="form-control" (change)="liquidar($event.target.value)">
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Impuesto:</label>
+                                <div class="input-group flex-nowrap">
+                                    <input type="text" class="form-control" aria-label="Username" [value]="imp" aria-describedby="addon-wrapping" disabled>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="addon-wrapping">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label for="">Total:</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="addon-wrapping">$</span>
+                                    </div>
+                                    <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" disabled [value]="total | number">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <div class="row">
+                            <div *ngIf="facturar" class="col-12 mb-2">
+                                <label for="">Método de pago:</label>
+                                <div class="input-group flex-nowrap" (change)="activateMetodo($event.target.value)">
+                                    <select class="custom-select" id="inputGroupSelect01">
+                                        <option selected>Seleccionar método</option>
+                                        <option value="contado">Contado</option>
+                                        <option value="credito">Crédito</option>                                        
+                                      </select>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="addon-wrapping"><i class="fa fa-credit-card" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Recibido:</label>
+                                <div class="input-group flex-nowrap">
+                                    <input *ngIf="contado" type="number" min="1" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" (change)="retorno($event.target.value)">
+                                    <input *ngIf="!contado" type="number" min="1" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" disabled>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="addon-wrapping"><i class="fa fa-money" aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label for="">Regreso:</label>
+                                <div class="input-group flex-nowrap">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="addon-wrapping">$</span>
+                                    </div>
+                                    <input type="text" [value]="cambio | number" class="form-control" aria-label="Username" aria-describedby="addon-wrapping" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        <button *ngIf="carrito" (click)="sendPurchase()" class="btn btn-dark btn-block mt-3">Cargar y agregar otro producto</button>
+                        <button *ngIf="!enviar" class="btn btn-dark btn-block mt-3" disabled>Finalizar y facturar</button>
+                        <button *ngIf="enviar" (click)="charge()" class="btn btn-dark btn-block mt-3">Finalizar y facturar</button>
+                    </form>
+                    <div class="text-right mt-3">
+                        <h2 style="color: rgb(187, 8, 8);">${{totalFactura | number}}</h2>
+                    </div>
+                    <div class="mt-1">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Unidad</th>
+                                    <th scope="col">Precio</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listaPrd">
+                                    <th>{{item.compra[1] | titlecase}}</th>
+                                    <td>{{item.compra[3]}}</td>
+                                    <td>{{item.compra[2]}}</td>
+                                    <td>{{item.compra[4]}}</td>
+                                    <td>
+                                        <button class="btn btn-danger" (click)="loadProd(item)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 cat mr-1">
+                <div class="row row-cols-1 row-cols-md-4 mt-3">
+                    <div class="col mb-3" *ngFor="let item of lista">
+                        <div class="card h-100" (click)="itemSelected(item)">
+                            <img [src]="item.imagen" class="card-img-top" width="100%" height="150">
+                            <div class="card-body">
+                                <h6 class="card-title text-center">{{item.nombre | titlecase}}</h6>
+                                <div class="text-center">
+                                    <h3 *ngIf="item.cantidad > 40"><span class="badge badge-success">{{item.cantidad}} Unid</span></h3>
+                                    <h3 *ngIf="item.cantidad <= 39 && item.cantidad > 15"><span class="badge badge-warning">{{item.cantidad}} Unid</span></h3>
+                                    <h3 *ngIf="item.cantidad <= 15"><span class="badge badge-danger">{{item.cantidad}} Kg</span></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>Va a eliminar un producto de esta factura</h4>
+                <ngx-barcode [bc-value]="factura" [bc-display-value]="true"></ngx-barcode>
+                <br>
+                <button class="btn btn-warning btn-block" (click)="itemDelete()" data-dismiss="modal">Confirmar</button>
+                <button class="btn btn-dark btn-block" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>

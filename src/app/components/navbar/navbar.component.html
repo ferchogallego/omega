@@ -1,0 +1,149 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div *ngIf="admin" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="['/administrador']">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Ventas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" [routerLink]="['/venta']">Nueva Venta</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/lista']">Listado Ventas</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/productos']">Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/envios']">Despachos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/HistorialCorte']">Corte</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/sucursales']">Sucursales</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/usuarios']">Usuarios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/pedidosAdmin']">Pedidos <span class="badge badge-success">{{pedidos}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/novedades']">Novedades<span class="badge badge-danger">{{cant}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/compras']">Compras</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/clientes']">Clientes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/empresa']">Empresa</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" (click)="onLogout()">Salir</a>
+            </li>
+        </ul>
+        <div class="text-right">
+            <a *ngIf="imagen" class="nav-link usr" [routerLink]="['/perfil']"><img [src]="imagen" width="25px" class="img-fluid rounded-circle"> Perfil</a>
+            <a *ngIf="!imagen" class="nav-link usr" [routerLink]="['/perfil']"><i class="fa fa-user"></i> Perfil</a>
+        </div>
+    </div>
+    <div *ngIf="despachador" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="['/despachos']">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/envios']">Historial</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="onLogout()">Salir</a>
+            </li>
+        </ul>
+        <div class="text-right">
+            <a *ngIf="imagen" class="nav-link usr" [routerLink]="['/perfil']"><img [src]="imagen" width="25px" class="img-fluid rounded-circle"> Perfil</a>
+            <a *ngIf="!imagen" class="nav-link usr" [routerLink]="['/perfil']"><i class="fa fa-user"></i> Perfil</a>
+        </div>
+    </div>
+    <div *ngIf="cortador" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="['/corte']">Inicio <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/HistorialCorte']">Historial</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="onLogout()">Salir</a>
+            </li>
+        </ul>
+        <div class="text-right">
+            <a *ngIf="imagen" class="nav-link usr" [routerLink]="['/perfil']"><img [src]="imagen" width="25px" class="img-fluid rounded-circle"> Perfil</a>
+            <a *ngIf="!imagen" class="nav-link usr" [routerLink]="['/perfil']"><i class="fa fa-user"></i> Perfil</a>
+        </div>
+    </div>
+    <div *ngIf="vendedor" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Ventas
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" [routerLink]="['/ventas-suc']">Nueva Venta</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/lista']">Listado Ventas</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/pedidosSucursal']">Pedidos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/entregaSucursal']">Entregas <span class="badge badge-success">{{listaEntrega}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/clientes']">Clientes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/novedadeSuc']">Novedades</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="onLogout()">Salir</a>
+            </li>
+        </ul>
+        <div class="text-right">
+            <a *ngIf="imagen" class="nav-link usr" [routerLink]="['/perfil']"><img [src]="imagen" width="25px" class="img-fluid rounded-circle"> Perfil</a>
+            <a *ngIf="!imagen" class="nav-link usr" [routerLink]="['/perfil']"><i class="fa fa-user"></i> Perfil</a>
+        </div>
+    </div>
+    <div *ngIf="alimentador" class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/entrada']">Entrada</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/pedidosAlimentador']">Pedidos <span class="badge badge-info">{{pedidosAl}}</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/distribucion']">Distribución</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/historial']">Historial</a>
+            </li>
+            <li class="nav-item" [routerLink]="['/perfil']">
+                <a class="nav-link">Perfil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="onLogout()">Salir</a>
+            </li>
+        </ul>
+    </div>
+</nav>

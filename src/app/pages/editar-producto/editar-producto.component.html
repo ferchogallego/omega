@@ -1,0 +1,46 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h2 class="ventas"><img src="../../../assets/img/editar.png" width="50" class="img-fluid" alt="Responsive image"> Edición de Producto</h2>
+    </div>
+</div>
+<div class="container mt-5">
+    <form [formGroup]="editProductForm" (ngSubmit)="editarProducto(editProductForm.value)" autocomplete="off">
+        <div class="text-center">
+            <img *ngIf="!imageSrc" src="../../../../assets/img/prod.png" width="10%" alt="...">
+            <img *ngIf="imageSrc" [src]="imageSrc" width="10%" alt="...">
+        </div><br>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Nombre del product:o</label>
+                    <input type="text" class="form-control" formControlName="nombre" [class.is-invalid]="nombreNoValido">
+                    <small *ngIf="nombreNoValido" class="text-danger">Debe ingresar el nombre</small>
+                </div>
+                <div class="form-group">
+                    <label>Código del producto:</label>
+                    <input type="text" class="form-control" formControlName="codigo" [class.is-invalid]="codigoNoValido">
+                    <small *ngIf="codigoNoValido" class="text-danger">Debe ingresar el código del producto</small>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad:</label>
+                    <input type="number" class="form-control" formControlName="cantidad" [class.is-invalid]="cantidadNoValido">
+                    <small *ngIf="cantidadNoValido" class="text-danger">Debe ingresar la cantidad del producto</small>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Precio:</label>
+                    <input type="number" class="form-control" formControlName="precio" [class.is-invalid]="precioNoValido">
+                    <small *ngIf="precioNoValido" class="text-danger">Debe ingresar el precio</small>
+                </div>
+                <div class="form-group">
+                    <label>Imagen del producto</label>
+                    <input type="file" class="form-control" formControlName="imagen" (change)="handleImage($event)">
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark">Actualizar Producto</button>
+        <br><br>
+    </form>
+</div>

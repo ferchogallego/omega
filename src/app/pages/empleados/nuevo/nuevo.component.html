@@ -1,0 +1,83 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h2 class="ventas"><img src="../../../assets/img/plus.png" width="50" class="img-fluid" alt="Responsive image"> Registrar Empleado</h2>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12">
+        <form [formGroup]="newEmployeeForm" (ngSubmit)="addNewEmployee(newEmployeeForm.value)" autocomplete="off">
+            <div class="text-center">
+                <img *ngIf="!imageSrc" src="../../../../assets/img/avatar.png" width="10%" class="rounded-circle" alt="...">
+                <img *ngIf="imageSrc" [src]="imageSrc" width="10%" class="rounded-circle" alt="...">
+            </div><br>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Nombre completo</label>
+                        <input type="text" class="form-control" formControlName="nombre" [class.is-invalid]="nombreNoValido">
+                        <small *ngIf="nombreNoValido" class="text-danger">Debe ingresar el nombre</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Sucursal</label>
+                        <select class="custom-select" formControlName="sucursal" [class.is-invalid]="sucursalNoValido">
+                            <option *ngFor="let item of sucursales" [value]="item[0].nombre">{{item[0].nombre | titlecase}}</option>   
+                            <small *ngIf="sucursalNoValido" class="text-danger">Debe ingresar el nombre</small>                       
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Número de documento</label>
+                        <input type="text" class="form-control" formControlName="documento" [class.is-invalid]="documentoNoValido">
+                        <small *ngIf="documentoNoValido" class="text-danger">Debe ingresar el documento</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Cargo</label>
+                        <select class="custom-select" formControlName="rol">
+                            <option value="admin">Administrador</option>
+                            <option value="Vendedor">Vendedor</option>
+                            <option value="Despachador">Despachador</option> 
+                            <option value="Alimentador">Alimentador</option>
+                            <option value="Cortador">Cortador</option>  
+                            <option value="Especial">Especial</option>                          
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado</label>
+                        <select class="custom-select" formControlName="estado">
+                            <option value="Activo">Activo</option>
+                            <option value="Desactivado">Desactivado</option>                            
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" formControlName="email" [class.is-invalid]="emailNoValido">
+                        <small *ngIf="emailNoValido" class="text-danger">Debe ingresar un email válido</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="number" class="form-control" formControlName="telefono" [class.is-invalid]="telefonoNoValido">
+                        <small *ngIf="telefonoNoValido" class="text-danger">Debe ingresar un email válido</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Dirección</label>
+                        <input type="text" class="form-control" formControlName="direccion" [class.is-invalid]="direccionNoValido">
+                        <small *ngIf="direccionNoValido" class="text-danger">Debe ingresar la dirección</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha de nacimiento</label>
+                        <input type="date" class="form-control" formControlName="fechaNac" [class.is-invalid]="fechaNacNoValido">
+                        <small *ngIf="fechaNacNoValido" class="text-danger">Debe ingresar la fecha de nacimiento</small>
+                    </div>
+                    <div class="form-group">
+                        <label>Foto del empleado</label>
+                        <input type="file" class="form-control" (change)="handleImage($event)">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-dark">Registrar Empleado</button>
+            <br><br>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,92 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h2 class="ventas"><img src="../../../assets/img/trabajo.png" width="50" class="img-fluid" alt="Responsive image"> Pollos Omega</h2>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12 text-center">
+        <img [src]="imagen" class="img-fluid" (click)="enableImg()" style="cursor: pointer;" width="150" alt="Responsive image"><br>
+        <input *ngIf="img" type="file" (change)="handleImage($event)"><br>
+        <button *ngIf="img" class="btn btn-primary mt-3">Actualizar Imagen</button>
+    </div>
+    <br>
+    <div>
+        <div class="row">
+            <div class="col-8">
+                <h3><img src="../../../assets/img/etiqueta.png" width="40" class="img-fluid" alt="Responsive image"><b> NIT: {{idEmp}}</b></h3>
+                <input *ngIf="nit" (change)="changeNit($event.target.value)" class="form-control" type="text" placeholder="Ingrese el número de NIT">
+            </div>
+            <div class="col-4">
+                <button *ngIf="!nit" (click)="enableNit()" class="btn btn-primary float-right"><i class="fa fa-edit fa-2x"></i></button>
+                <button *ngIf="nit" (click)="updateNit()" class="btn btn-success float-right">Actualizar</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-8">
+                <h3><img src="../../../assets/img/dedicacion.svg" width="40" class="img-fluid" alt="Responsive image"><b> {{representante | titlecase}}</b></h3>
+                <input *ngIf="rps" (change)="manager($event.target.value)" class="form-control" type="text" placeholder="Ingrese nombre del representante">
+            </div>
+            <div class="col-4">
+                <button *ngIf="!rps" (click)="enableRps()" class="btn btn-primary float-right"><i class="fa fa-edit fa-2x"></i></button>
+                <button *ngIf="rps" (click)="updateRps()" class="btn btn-success float-right">Actualizar</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h3><img src="../../../assets/img/mail.svg" width="40" class="img-fluid" alt="Responsive image"> Correo: <b>{{email}}</b></h3>
+                <input *ngIf="mls" (change)="correo($event.target.value)" class="form-control" type="email" placeholder="Ingrese el correo electrónico">
+            </div>
+            <div class="col-6">
+                <button *ngIf="!mls" (click)="enableCorreo()" class="btn btn-primary float-right"><i class="fa fa-edit fa-2x"></i></button>
+                <button *ngIf="mls" (click)="updateCorreo()" class="btn btn-success float-right">Actualizar</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h3><img src="../../../assets/img/address.svg" width="40" class="img-fluid" alt="Responsive image"> {{direccion}}</h3>
+                <input *ngIf="dir" (change)="address($event.target.value)" class="form-control" type="text" placeholder="Ingrese la dirección de la empresa">
+            </div>
+            <div class="col-6">
+                <button *ngIf="!dir" (click)="enableDireccion()" class="btn btn-primary float-right"><i class="fa fa-edit fa-2x"></i></button>
+                <button *ngIf="dir" (click)="updateDireccion()" class="btn btn-success float-right">Actualizar</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h3><img src="../../../assets/img/phone.svg" width="40" class="img-fluid" alt="Responsive image"> Tel: {{telefono}}</h3>
+                <input *ngIf="tel" (change)="phone($event.target.value)" class="form-control" type="text" placeholder="Ingrese número telefónico">
+            </div>
+            <div class="col-6">
+                <button *ngIf="!tel" (click)="enableTelefono()" class="btn btn-primary float-right"><i class="fa fa-edit fa-2x"></i></button>
+                <button *ngIf="tel" (click)="updateTelefono()" class="btn btn-success float-right">Actualizar</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h3><img src="../../../assets/img/porcentaje.png" width="40" class="img-fluid" alt="Responsive image"> Impuesto: {{imp}}%</h3>
+                <input *ngIf="tax" (change)="iva($event.target.value)" class="form-control" type="number" placeholder="Ingrese el porcentaje del impuesto">
+            </div>
+            <div class="col-6">
+                <button *ngIf="!tax" (click)="enableIva()" class="btn btn-primary float-right"><i class="fa fa-edit fa-2x"></i></button>
+                <button *ngIf="tax" (click)="updateIva()" class="btn btn-success float-right">Actualizar</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-6">
+                <h3><img src="../../../assets/img/factura.png" width="40" class="img-fluid" alt="Responsive image"> Factura No: {{incremento}}</h3>
+                <input *ngIf="cst" (change)="bill($event.target.value)" class="form-control" type="number" placeholder="Ingrese el porcentaje del impuesto">
+            </div>
+            <div class="col-6">
+                <button *ngIf="!cst" (click)="enableBill()" class="btn btn-primary float-right"><i class="fa fa-edit fa-2x"></i></button>
+                <button *ngIf="cst" (click)="updateBill()" class="btn btn-success float-right">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/clock.png" width="50" class="img-fluid" alt="Responsive image"> Historial de Gestión</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="col-12 mt-3">
+        <div class="text-right">
+            <button *ngIf="distri" (click)="onDisabled()" class="btn btn-dark"> Ver Entradas</button> &nbsp;
+            <button *ngIf="!distri" (click)="onEnabled()" class="btn btn-dark">Ver Distribución</button>
+        </div>
+        <div class="mt-4">
+            <table *ngIf="distri" class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Enviado</th>
+                        <th scope="col">Código</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Sucursal</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of listaDist">
+                        <th>{{item.fecha | date}}</th>
+                        <td>{{item.codOrden}}</td>
+                        <td>{{item.estado}}</td>
+                        <td>{{item.sucursal}}</td>
+                        <td class="text-center">
+                            <button class="btn btn-dark" title="Ver detalle" (click)="detalleDistribucion(item.id)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-list fa-lg"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table *ngIf="!distri" class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Alimentador</th>
+                        <th scope="col">Recibido</th>
+                        <th scope="col">Peso</th>
+                        <th scope="col">Unidades</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of inList">
+                        <th><b>{{item.alimentador | titlecase}}</b></th>
+                        <td>{{item.fecha | date}}</td>
+                        <td>{{item.peso}} Kg</td>
+                        <td>{{item.unidades}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalle de Distribución</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Precio</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of detalleDist">
+                            <th><b>{{item.nombre | titlecase}}</b></th>
+                            <td>{{item.cantidad }}</td>
+                            <td>${{item.precio}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

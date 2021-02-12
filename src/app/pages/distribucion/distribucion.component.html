@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/delivery.png" width="50" class="img-fluid" alt="Responsive image"> Distribución a Sucursales</h1>
+    </div>
+</div>
+<div class="container mt-5">
+    <div class="col-12">
+        <div class="form-group">
+            <label><h3>Seleccione Sucursal:</h3></label><br>
+            <select class="custom-select ppal" (change)="sucursal($event.target.value)">
+                <option value="" selected>Sucursal...</option>
+                <option *ngFor="let item of sucursales" [value]="item[0].nombre">{{item[0].nombre | titlecase}}</option>   
+            </select>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-4" style="border-right: solid; border-width: 1px; border-color: #d1cece">
+                <div class="form-group">
+                    <label><h4>Seleccione Producto:</h4></label><br>
+                    <select class="custom-select slect" (change)="verificaInventario($event.target.value)">
+                        <option value="" selected>Producto...</option>
+                        <option *ngFor="let item of lista" [value]="item.id">{{item.nombre | titlecase}}</option>   
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><h4>Cantidad:</h4></label><br>
+                    <input type="number" (change)="calcularInventario($event.target.value)" style="text-align: center;" class="form-control slect" min="1" [value]="cantEnviar">
+                </div>
+                <button (click)="cargarProductoDistribucion()" class="btn btn-dark btn-block">Cargar</button>
+                <button *ngIf="envio" (click)="finalizarDistribucion()" class="btn btn-warning btn-block env">Enviar Distribución</button>
+            </div>
+            <div class="col-8">
+                <h3>{{suc | titlecase}}:</h3>
+                <hr>
+                <table class="table float-right">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="text-center">Producto</th>
+                            <th class="text-center">Cantidad</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of prodList; let i = index">
+                            <td class="text-center">{{item.nombre}}</td>
+                            <td class="text-center">{{item.cantidad}}</td>
+                            <td class="text-center">
+                                <button class="btn btn-danger" (click)="devolucion(i, item.id, item.cantidad)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash fa-lg"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Devolución de Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body text-center">
+                <h2>Confirmar para cancelar la distribución del producto</h2>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button *ngIf="dvlucion" type="button" (click)="confirmar()" class="btn btn-primary">Confirmar</button>
+                <button *ngIf="!dvlucion" type="button" class="btn btn-primary" disabled>Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>

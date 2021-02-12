@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+<div class="titulo">
+    <div class="container">
+        <h1 class="ventas"><img src="../../../assets/img/delivery.png" width="50" class="img-fluid" alt="Responsive image"> Listado de Envíos Realizados</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="col-12">
+        <h2>Listado de despachos</h2>
+        <hr>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Fecha Despacho</th>
+                    <th scope="col">Despachador</th>
+                    <th scope="col">Unidades</th>
+                    <th scope="col">Peso</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of envios">
+                    <th>{{item.fecha | date:'medium'}}</th>
+                    <td>{{item.despachador | titlecase}}</td>
+                    <td>{{item.unidades}}</td>
+                    <td>{{item.peso}}Kg</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
