@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { map, finalize } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ClienteI } from '../shared/cliente.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class ClientesService {
                        return {id, ...data};
                      }))
                   );
+  }
+
+  eliminarCliente(idCliente: string){
+    return this.db.collection('clientes').doc(idCliente).delete();
   }
 }

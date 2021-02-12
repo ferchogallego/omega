@@ -12,6 +12,7 @@ export class ListaVentasComponent implements OnInit {
 
   list: any;
   canceladas = false;
+  credito = true;
   filterProducto = '';
   constructor(private actionSvc: ActionsService,
               private router: Router) { }
@@ -72,7 +73,17 @@ export class ListaVentasComponent implements OnInit {
 
   listaCredito(){
     this.list = '';
+    this.credito = false;
     this.actionSvc.listaFacturasCredito()
+                  .subscribe(res => {
+                    this.list = res;
+                  });
+  }
+
+  listaContado(){
+    this.list = '';
+    this.credito = true;
+    this.actionSvc.listaFacturasContado()
                   .subscribe(res => {
                     this.list = res;
                   });

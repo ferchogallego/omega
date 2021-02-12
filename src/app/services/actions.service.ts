@@ -158,8 +158,7 @@ export class ActionsService {
     });
   }
   listaFacturas(){
-    return this.db.collection('facturas/', ref => ref
-                  .where('tipoCompra', '==', 'contado'))
+    return this.db.collection('facturas/')
                   .snapshotChanges()
                   .pipe(
                     map(actions =>
@@ -188,6 +187,20 @@ export class ActionsService {
   listaFacturasCredito(){
     return this.db.collection('facturas/', ref => ref
                   .where('tipoCompra', '==', 'credito'))
+                  .snapshotChanges()
+                  .pipe(
+                    map(actions =>
+                     actions.map(resp => {
+                     const data = resp.payload.doc.data() as any;
+                     const id = resp.payload.doc.id;
+                     return {id, ...data};
+                     }))
+                    );
+  }
+
+  listaFacturasContado(){
+    return this.db.collection('facturas/', ref => ref
+                  .where('tipoCompra', '==', 'contado'))
                   .snapshotChanges()
                   .pipe(
                     map(actions =>

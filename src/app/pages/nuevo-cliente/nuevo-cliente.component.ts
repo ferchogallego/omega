@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ClientesService } from '../../services/clientes.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nuevo-cliente',
@@ -10,7 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class NuevoClienteComponent implements OnInit {
 
-  constructor(private clienteSvc: ClientesService) { }
+  constructor(private clienteSvc: ClientesService,
+              private router: Router) { }
 
   registerClientForm = new FormGroup ({
     nombre: new FormControl('', Validators.required),
@@ -36,8 +38,13 @@ export class NuevoClienteComponent implements OnInit {
                         'Se ha creado correctamente',
                         'success'
                       );
+                      window.location.reload();
                      }
                    });
+  }
+
+  cancelar(){
+    this.router.navigate(['/clientes']);
   }
 
 }
