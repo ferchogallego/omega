@@ -9,6 +9,8 @@ import { ActionsService } from '../../services/actions.service';
 export class HistorialCorteComponent implements OnInit {
   list: any;
   prods: any;
+  cortador: string;
+  fecha: any;
   constructor(private actionSvc: ActionsService) { }
 
   ngOnInit(): void {
@@ -19,7 +21,9 @@ export class HistorialCorteComponent implements OnInit {
   }
 
   detalleInventario(inventario: any){
-    this.prods = inventario;
+    this.prods = inventario.productos;
+    this.cortador = inventario.cortador;
+    this.fecha = inventario.fecha;
   }
 
 }

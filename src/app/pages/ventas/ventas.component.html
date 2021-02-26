@@ -40,7 +40,7 @@
                             <div class="col-4">
                                 <label for="">Cantidad:</label>
                                 <input *ngIf="!cantidad" type="number" min="1" class="form-control" disabled>
-                                <input *ngIf="cantidad" type="number" min="1" class="form-control" (change)="liquidar($event.target.value)">
+                                <input *ngIf="cantidad" type="number" min="1" class="form-control" [value]="cant | number" (change)="liquidar($event.target.value)">
                             </div>
                         </div>
                         <hr>

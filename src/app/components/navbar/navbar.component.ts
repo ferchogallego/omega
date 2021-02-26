@@ -18,6 +18,8 @@ export class NavbarComponent implements OnInit {
   usuario: any;
   data: any;
   novedades: any;
+  despachos: any;
+  desp: number;
   cant: number;
   pedidos: number;
   pedidosAl: number;
@@ -67,6 +69,11 @@ export class NavbarComponent implements OnInit {
                   this.cant = this.novedades.length;
                   });
 
+    this.actionSvc.cantidadDespachos()
+                  .subscribe(res => {
+                  this.despachos = res;
+                  this.desp = this.despachos.length;
+                  });
     this.actionSvc.cargarPedidosAdministrador()
                   .subscribe(ped => {
                     this.pedidos = ped.length;

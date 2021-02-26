@@ -26,7 +26,8 @@ export class DespachosComponent implements OnInit {
     despachador: new FormControl(''),
     fecha: new FormControl(this.fecha, Validators.required),
     unidades: new FormControl('1', Validators.required),
-    peso: new FormControl('1', Validators.required)
+    peso: new FormControl('1', Validators.required),
+    estado: new FormControl('Enviado'),
   });
 
   get unidadesNoValido() {

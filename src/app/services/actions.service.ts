@@ -28,6 +28,20 @@ export class ActionsService {
   }
 
   verDespachos(){
+    return this.db.collection('despachos', ref => ref
+                  .where('estado', '==', 'Enviado'))
+                  .snapshotChanges()
+                  .pipe(
+                    map(actions =>
+                     actions.map(resp => {
+                       const data = resp.payload.doc.data() as any;
+                       const id = resp.payload.doc.id;
+                       return {id, ...data};
+                     }))
+                  );
+  }
+
+  verTodosDespachos(){
     return this.db.collection('despachos')
                   .snapshotChanges()
                   .pipe(
@@ -38,6 +52,10 @@ export class ActionsService {
                        return {id, ...data};
                      }))
                   );
+  }
+
+  despachosRecibidos(idPed: string){
+    return this.db.collection('despachos').doc(idPed).update({estado: 'Recibido'});
   }
 
   verCatalogo(){
@@ -562,6 +580,19 @@ export class ActionsService {
   cantidadNovedades(){
     return this.db.collection('novedades', ref => ref
                   .where('estado', '==', 'Enviada'))
+                  .snapshotChanges()
+                  .pipe(
+                    map(actions =>
+                     actions.map(resp => {
+                     const data = resp.payload.doc.data() as any;
+                     const id = resp.payload.doc.id;
+                     return {id, ...data};
+                     }))
+                    );
+  }
+  cantidadDespachos(){
+    return this.db.collection('despachos', ref => ref
+                  .where('estado', '==', 'Enviado'))
                   .snapshotChanges()
                   .pipe(
                     map(actions =>

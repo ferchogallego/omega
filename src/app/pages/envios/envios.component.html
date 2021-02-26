@@ -5,24 +5,38 @@
     </div>
 </div>
 <div class="container">
-    <div class="col-12">
-        <h2>Listado de despachos</h2>
+    <div class="col-12 mt-5">
+        <div class="row">
+            <div class="col-9">
+                <h2>Listado de Despachos Desde Finca de Producción:</h2>
+            </div>
+            <div class="col-3 text-right">
+                <button *ngIf="!verTodo" class="btn btn-success" (click)="verTodos()">Ver Todos</button>
+                <button *ngIf="verTodo" class="btn btn-info" (click)="verPendientes()">Ver Pendientes</button>
+            </div>
+        </div>
         <hr>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col">Fecha Despacho</th>
                     <th scope="col">Despachador</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Unidades</th>
                     <th scope="col">Peso</th>
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let item of envios">
                     <th>{{item.fecha | date:'medium'}}</th>
                     <td>{{item.despachador | titlecase}}</td>
+                    <td>{{item.estado | titlecase}}</td>
                     <td>{{item.unidades}}</td>
                     <td>{{item.peso}}Kg</td>
+                    <td>
+                        <button *ngIf="item.estado == 'Enviado'" class="btn btn-info" (click)="recibirPedido(item.id)"><i class="fa fa-check"></i></button>
+                    </td>
                 </tr>
             </tbody>
         </table>

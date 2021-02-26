@@ -31,7 +31,6 @@ export class VentasComponent implements OnInit, OnDestroy {
   metodoPago: string;
   precio: number;
   totalFactura = 0;
-  impuesto = 0.19;
   total: number;
   cambio: number;
   contado = false;
@@ -128,7 +127,7 @@ export class VentasComponent implements OnInit, OnDestroy {
 
   liquidar(cant: number){
     this.cantParcial = cant;
-    this.total = (this.precio + (this.precio * this.impuesto)) * cant;
+    this.total = (this.precio + (this.precio * this.imp)) * cant;
   }
 
   retorno(pago: number){
@@ -200,6 +199,7 @@ export class VentasComponent implements OnInit, OnDestroy {
                               this.actionSvc.comprasFactura(this.solicitud.refCompra)
                                           .subscribe(productos => {
                                             this.listaPrd = productos;
+                                            this.cant = 0;
                                           })
                             );
                           }
