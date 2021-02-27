@@ -81,6 +81,10 @@
                                 </div>
                             </div>
                         </div>
+                        <div *ngIf="pagado" class="col-12 text-center">
+                            <p style="color: blue; font-size: 35px;">Recibe: <b>${{recibido | number}}</b></p>
+                            <p style="color: green; font-size: 35px;">Retorna: <b>${{cambio | number}}</b></p>
+                        </div>
                         <div class="row">
                             <div class="col-6">
                                 <label for="">Recibido:</label>
@@ -104,7 +108,7 @@
                         </div>
                         <button *ngIf="carrito" (click)="sendPurchase()" class="btn btn-dark btn-block mt-3">Cargar y agregar otro producto</button>
                         <button *ngIf="!enviar" class="btn btn-dark btn-block mt-3" disabled>Finalizar y facturar</button>
-                        <button *ngIf="enviar" (click)="charge()" class="btn btn-dark btn-block mt-3">Finalizar y facturar</button>
+                        <button *ngIf="enviar" class="btn btn-dark btn-block mt-3" data-toggle="modal" data-target="#resumenFactura">Finalizar y facturar</button>
                     </form>
                     <div class="text-right mt-3">
                         <h2 style="color: rgb(187, 8, 8);">${{totalFactura | number}}</h2>
@@ -172,6 +176,61 @@
                 <br>
                 <button class="btn btn-warning btn-block" (click)="itemDelete()" data-dismiss="modal">Confirmar</button>
                 <button class="btn btn-dark btn-block" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal resumen de factura -->
+<div class="modal fade" id="resumenFactura" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Factura: No.<b>{{factura}}</b></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-12">
+                    <p><b>{{fecha | date}}</b></p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-6 text-left">
+                            <p>Empleado:</p>
+                            <p>Tipo de compra:</p>
+                            <p>Referencia:</p>
+                            <h2 style="color: red;">TOTAL</h2>
+                        </div>
+                        <div class="col-6 text-right">
+                            <p><b>{{nombre | titlecase}}</b></p>
+                            <p><b>{{tipoCompra | titlecase}}</b></p>
+                            <p>{{reference}}</p>
+                            <h2 style="color: red;"><b>${{totalFactura | number}}</b></h2>
+                        </div>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Producto</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Unidad</th>
+                            <th scope="col">Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of listaPrd">
+                            <th>{{item.compra[1] | titlecase}}</th>
+                            <td>{{item.compra[3]}}</td>
+                            <td>${{item.compra[2] | number}}</td>
+                            <td>${{item.compra[4] | number}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-warning" (click)="charge()"><i class="fa fa-print">Imprimir Factura</i></button>
             </div>
         </div>
     </div>

@@ -577,6 +577,18 @@ export class ActionsService {
     return this.db.collection('sucursales').doc(idSuc).update({encargado: nuevoEnc});
   }
 
+  actualizarTelefonoSucursal(idSuc: string, nuevoTel: string){
+    return this.db.collection('sucursales').doc(idSuc).update({telefono: nuevoTel});
+  }
+
+  actualizarDireccionSucursal(idSuc: string, nuevoDir: string){
+    return this.db.collection('sucursales').doc(idSuc).update({direccion: nuevoDir});
+  }
+
+  actualizarEmailSucursal(idSuc: string, nuevoMail: string){
+    return this.db.collection('sucursales').doc(idSuc).update({email: nuevoMail});
+  }
+
   cantidadNovedades(){
     return this.db.collection('novedades', ref => ref
                   .where('estado', '==', 'Enviada'))

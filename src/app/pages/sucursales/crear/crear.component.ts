@@ -18,6 +18,10 @@ export class CrearComponent implements OnInit {
   vendedores: any;
   sucursal: string;
   menu = false;
+  boxEncargado = false;
+  boxTelefono = false;
+  boxDireccion = false;
+  boxEmail = false;
   constructor(private empresaSvc: EmpresaService,
               private actionSvs: ActionsService) { }
 
@@ -182,11 +186,35 @@ export class CrearComponent implements OnInit {
     });
   }
 
-  cargarEncargado(id: string){
+  editarSucursal(id: string, tipo){
     this.sucursal = id;
-    this.empresaSvc.cargarVendedores().then(sales => {
-      this.vendedores = sales;
-    });
+    if (tipo === 'encargado') {
+      this.empresaSvc.cargarVendedores().then(sales => {
+        this.vendedores = sales;
+      });
+      this.boxEncargado = true;
+      this.boxTelefono = false;
+      this.boxDireccion = false;
+      this.boxEmail = false;
+    }
+    if (tipo === 'telefono') {
+      this.boxEncargado = false;
+      this.boxTelefono = true;
+      this.boxDireccion = false;
+      this.boxEmail = false;
+    }
+    if (tipo === 'direccion') {
+      this.boxEncargado = false;
+      this.boxTelefono = false;
+      this.boxDireccion = true;
+      this.boxEmail = false;
+    }
+    if (tipo === 'email') {
+      this.boxEncargado = false;
+      this.boxTelefono = false;
+      this.boxDireccion = false;
+      this.boxEmail = true;
+    }
   }
 
   encargadoSeleccionado(encargado: string){
@@ -209,6 +237,84 @@ export class CrearComponent implements OnInit {
             'Se ha actulizado el encargado de la sucursal.',
             'success'
           );
+          window.location.reload();
+        }
+      });
+    }
+  }
+
+  telefonoSeleccionado(telefono: string){
+    if (telefono === '') {
+      return;
+    } else {
+      Swal.fire({
+        title: 'Está seguro?',
+        text: 'Se cambiará el teléfono de esta sucursal!',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Cambiarlo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.actionSvs.actualizarTelefonoSucursal(this.sucursal, telefono);
+          Swal.fire(
+            'Cambiado!',
+            'Se ha actulizado el teléfono de la sucursal.',
+            'success'
+          );
+          window.location.reload();
+        }
+      });
+    }
+  }
+
+  direccionSeleccionado(direccion: string){
+    if (direccion === '') {
+      return;
+    } else {
+      Swal.fire({
+        title: 'Está seguro?',
+        text: 'Se cambiará el dirección de esta sucursal!',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Cambiarlo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.actionSvs.actualizarDireccionSucursal(this.sucursal, direccion);
+          Swal.fire(
+            'Cambiado!',
+            'Se ha actulizado el dirección de la sucursal.',
+            'success'
+          );
+          window.location.reload();
+        }
+      });
+    }
+  }
+  emailSeleccionado(email: string){
+    if (email === '') {
+      return;
+    } else {
+      Swal.fire({
+        title: 'Está seguro?',
+        text: 'Se cambiará el E-mail de esta sucursal!',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, Cambiarlo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.actionSvs.actualizarEmailSucursal(this.sucursal, email);
+          Swal.fire(
+            'Cambiado!',
+            'Se ha actulizado el E-mail de la sucursal.',
+            'success'
+          );
+          window.location.reload();
         }
       });
     }

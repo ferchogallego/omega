@@ -19,10 +19,42 @@
                     <img [src]="item.imageSuc" class="card-img-top crImage rounded-circle" alt="...">
                     <div class="card-body">
                         <h3 class="card-title">Sucursal : <b>{{item.nombre | titlecase}}</b> </h3>
-                        <h5>Encardado: <b>{{item.encargado | titlecase}}</b></h5>
-                        <h5>Teléfono: <b>{{item.telefono }}</b></h5>
-                        <h5>Dirección: <b>{{item.direccion }}</b></h5>
-                        <h5>E-mail: <b style="color: blue;">{{item.email}}</b></h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-8">
+                                <h5>Encardado: <b>{{item.encargado | titlecase}}</b></h5>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button *ngIf="menu" class="btn btn-success" title="Actualizar Encargado" (click)="editarSucursal(item.id, 'encargado')" data-toggle="modal" data-target="#editSucursal"><i class="fa fa-edit fa-lg"></i></button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-8">
+                                <h5>Teléfono: <b>{{item.telefono }}</b></h5>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button *ngIf="menu" class="btn btn-success" title="Actualizar Teléfono" (click)="editarSucursal(item.id, 'telefono')" data-toggle="modal" data-target="#editSucursal"><i class="fa fa-edit fa-lg"></i></button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-8">
+                                <h5>Dirección: <b>{{item.direccion }}</b></h5>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button *ngIf="menu" class="btn btn-success" title="Actualizar Dirección" (click)="editarSucursal(item.id, 'direccion')" data-toggle="modal" data-target="#editSucursal"><i class="fa fa-edit fa-lg"></i></button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-8">
+                                <h5>E-mail: <b style="color: blue;">{{item.email}}</b></h5>
+                            </div>
+                            <div class="col-4 text-right">
+                                <button *ngIf="menu" class="btn btn-success" title="Actualizar Email" (click)="editarSucursal(item.id, 'email')" data-toggle="modal" data-target="#editSucursal"><i class="fa fa-edit fa-lg"></i></button>
+                            </div>
+                        </div>
                         <hr>
                         <div class="animated fadeIn" *ngIf="menu" class="row">
                             <div class="col-6">
@@ -31,9 +63,6 @@
                             </div>
                             <div class="col-6">
                                 <button class="btn btn-danger btn-block" (click)="delete(item.id)"><i class="fa fa-trash fa-lg"></i> Eliminar</button>
-                            </div>
-                            <div class="col-12 mt-2">
-                                <button class="btn btn-success btn-block" (click)="cargarEncargado(item.id)" data-toggle="modal" data-target="#editSucursal"><i class="fa fa-edit fa-lg"></i> Actualizar Encargado</button>
                             </div>
                         </div>
                     </div>
@@ -136,23 +165,35 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Editar encargado de sucursal</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Editar datos de sucursal:</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label>Seleccione nuevo encargado;</label>
+                <div *ngIf="boxEncargado" class="form-group">
+                    <label>Seleccione nuevo encargado:</label>
                     <select class="custom-select" (change)="encargadoSeleccionado($event.target.value)">
                         <option value="">Seleccionar...</option>
                         <option *ngFor="let item of vendedores" [value]="item[0].nombre">{{item[0].nombre | titlecase}}</option>
                     </select>
                 </div>
+                <div *ngIf="boxTelefono" class="form-group">
+                    <label>Ingrese Número de teléfono:</label>
+                    <input type="text" class="form-control" (change)="telefonoSeleccionado($event.target.value)">
+                </div>
+                <div *ngIf="boxDireccion" class="form-group">
+                    <label>Ingrese la Nueva Dirección:</label>
+                    <input type="text" class="form-control" (change)="direccionSeleccionado($event.target.value)">
+                </div>
+                <div *ngIf="boxEmail" class="form-group">
+                    <label>Ingrese el Nuevo E-mail:</label>
+                    <input type="text" class="form-control" (change)="emailSeleccionado($event.target.value)">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">Cambiar Encargado</button>
+                <button type="button" class="btn btn-primary">Actualizar</button>
             </div>
         </div>
     </div>

@@ -38,6 +38,10 @@ export class ClientesService {
                   );
   }
 
+  actualizarCliente(idCliente: string, cliente: any){
+    return this.db.collection('clientes').doc(idCliente).update(cliente);
+  }
+
   eliminarCliente(idCliente: string){
     return this.db.collection('clientes').doc(idCliente).delete();
   }
