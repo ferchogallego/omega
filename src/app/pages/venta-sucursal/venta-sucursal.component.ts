@@ -15,6 +15,7 @@ import Swal from 'sweetalert2';
 export class VentaSucursalComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription = new Subscription();
+  fecha = new Date().getTime();
   datos: any;
   usuario: any;
   lista: any;
@@ -65,6 +66,8 @@ export class VentaSucursalComponent implements OnInit, OnDestroy {
   prdelt: string;
   csId: string;
   itemCar: number;
+  recibido: number;
+  pagado = false;
 
   // actualizacin de inventario
   cantProd: number;
@@ -134,7 +137,9 @@ export class VentaSucursalComponent implements OnInit, OnDestroy {
 
   retorno(pago: number){
     if (pago > this.total) {
+      this.pagado = true;
       this.cambio = pago - this.totalFactura;
+      this.recibido = pago;
     }
     else {
       this.cambio = 0;
@@ -181,43 +186,38 @@ export class VentaSucursalComponent implements OnInit, OnDestroy {
   }
 
   sendPurchase(){
-    if (this.clienteId) {
-      this.solicitud.compra = [];
-      this.solicitud.usuario = this.clienteId;
-      this.solicitud.compra.push(this.idProd, this.nomProd, this.precio, this.cantParcial, this.total);
-      this.totalFactura = this.totalFactura + this.total;
-      if (this.cantProd > this.cantParcial) {
-        const cantActual = this.cantProd - this.cantParcial;
-        this.actionSvc.actualizaInventarioSuc(this.sucursal, this.idProd, cantActual)
-                      .then (() => {
-                        this.actionSvc.cargarPedido(this.solicitud)
-                        .then(result => {
-                          if (result) {
-                            this.total = 0;
-                            this.nomProd = '';
-                            this.precio = 0;
-                            this.facturar = true;
-                            this.subscription.add(
-                              this.actionSvc.comprasFactura(this.solicitud.refCompra)
-                                          .subscribe(productos => {
-                                            this.listaPrd = productos;
-                                          })
-                            );
-                          }
-                        });
+    if (this.clienteId === undefined) {
+      this.clienteId = 'Jmtdho6FgCsaJqIfa7Xt';
+      this.dcmt = '0';
+    }
+    this.solicitud.compra = [];
+    this.solicitud.usuario = this.clienteId;
+    this.solicitud.compra.push(this.idProd, this.nomProd, this.precio, this.cantParcial, this.total);
+    this.totalFactura = this.totalFactura + this.total;
+    if (this.cantProd > this.cantParcial) {
+      const cantActual = this.cantProd - this.cantParcial;
+      this.actionSvc.actualizaInventarioSuc(this.sucursal, this.idProd, cantActual)
+                    .then (() => {
+                      this.actionSvc.cargarPedido(this.solicitud)
+                      .then(result => {
+                        if (result) {
+                          this.total = 0;
+                          this.nomProd = '';
+                          this.precio = 0;
+                          this.facturar = true;
+                          this.subscription.add(
+                            this.actionSvc.comprasFactura(this.solicitud.refCompra)
+                                        .subscribe(productos => {
+                                          this.listaPrd = productos;
+                                        })
+                          );
+                        }
                       });
-      } else {
-        Swal.fire(
-          'Inventario Insuficiente',
-          'Verifique la cantidad de producto disponible',
-          'error'
-        );
-      }
-
+                    });
     } else {
       Swal.fire(
-        'No ha seleccionado cliente',
-        'Por favor seleccione el cliente para continuar',
+        'Inventario Insuficiente',
+        'Verifique la cantidad de producto disponible',
         'error'
       );
     }
